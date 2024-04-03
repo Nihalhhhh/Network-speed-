@@ -1,0 +1,24 @@
+<?php
+// Set up your bot token and webhook URL
+$botToken = '6435807387:AAEQJNhA-diZlUySxcg-vFi8dtS3JE_1Rv4';
+$webhookUrl = 'https://github.com/Nihalhhhh/Network-speed-.git';
+
+// Set up the webhook
+$telegramApi = "https://api.telegram.org/bot$botToken";
+file_get_contents("$telegramApi/setWebhook?url=$webhookUrl");
+
+// Handle incoming messages
+$update = file_get_contents('php://input');
+$update = json_decode($update, true);
+
+$message = $update['message']['text'];
+$chatId = $update['message']['chat']['id'];
+
+// Extract Terabox video URL from the message
+$videoUrl = $message;
+
+// Download the video from Terabox
+$videoData = file_get_contents($videoUrl);
+
+// Send the video back to the user
+file_get_contents("$telegramApi/sendVideo?chat_id=$chatId&video=$videoData");
